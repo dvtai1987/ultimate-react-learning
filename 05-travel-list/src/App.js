@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 
 export default function App() {
   const [items, setItems] = useState([]);
@@ -19,6 +19,13 @@ export default function App() {
     );
   }
 
+  function handleClearList() {
+    const confirmed = window.confirm(
+      "Are you sure you want to remove all items",
+    );
+    if (confirmed) setItems([]);
+  }
+
   return (
     <div className="app">
       <Logo />
@@ -27,6 +34,7 @@ export default function App() {
         items={items}
         onDeleteItem={handleDeleteItem}
         onToogleItem={handleToogleItem}
+        onClear={handleClearList}
       />
       <Stats items={items} />
     </div>
@@ -78,7 +86,7 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items, onDeleteItem, onToogleItem }) {
+function PackingList({ items, onDeleteItem, onToogleItem, onClear }) {
   const [sortBy, setSortBy] = useState("input");
 
   let sortedItems;
@@ -113,6 +121,7 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
           <option value="description">Sort by description</option>
           <option value="packed">Sort by packed status</option>
         </select>
+        <button onClick={onClear}>Clear list</button>
       </div>
     </div>
   );
